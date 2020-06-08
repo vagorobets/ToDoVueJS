@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList with Vue.js</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>
+        Vue.js To Do 
+    </h1>
+    <div id="app">
+        <input id="addTaskInput" placeholder="новая задача..." maxlength="95" type="text" v-model="task" v-on:keydown.enter="addTask">
+        <ul>
+            <li v-for="(task, index) in tasks">
+                <p  v-if="task.complete" class = "complete">{{ task.name }}</p>
+                <p v-else><input  class="task" type="text" v-model="task.name"></p>
+                <input id="checkbox" type="checkbox" v-on:change="toggle(task)" v-bind:checked="task.complete">
+                <button id="delete" v-on:click="tasks.splice(index, 1)">x</button>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                task: '',
+                tasks: [],
+            },
+            methods: {
+                addTask: function(task){
+                    task = this.task;
+                    this.tasks.push({name: task, complete: false});
+                    this.task = '';
+                },
+                toggle: function(task){
+                    task.complete = !task.complete;
+                },
+            },
+        });
+    </script>
+</body>
+</html>
